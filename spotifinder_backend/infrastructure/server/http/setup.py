@@ -4,12 +4,13 @@ Setup functions for HTTP server.
 
 import aiohttp_cors
 
-from spotifinder_backend.infrastructure.server.http.handlers import health
+from spotifinder_backend.infrastructure.server.http.handlers import health, spotify
 from spotifinder_backend.infrastructure.server.http.errors import ERROR_HANDLERS
 
 
 HEALTH = "/health"
 INFO = "/info"
+ANALYZE = "/analyze"
 
 
 def _setup_routes(app):
@@ -30,6 +31,9 @@ def _setup_routes(app):
 
     # Metadata.
     app.router.add_get(INFO, health.info)
+
+    # Spotify resource analysis
+    app.router.add_get(ANALYZE, spotify.get_resource_analysis)
 
 
 def configure_app(app):
