@@ -4,13 +4,12 @@ Setup functions for HTTP server.
 
 import aiohttp_cors
 
-from support_call_recording.infrastructure.server.http.handlers import event, health
-from support_call_recording.infrastructure.server.http.errors import ERROR_HANDLERS
+from spotifinder_backend.infrastructure.server.http.handlers import health
+from spotifinder_backend.infrastructure.server.http.errors import ERROR_HANDLERS
 
 
 HEALTH = "/health"
 INFO = "/info"
-EVENT = "/event"
 
 
 def _setup_routes(app):
@@ -31,9 +30,6 @@ def _setup_routes(app):
 
     # Metadata.
     app.router.add_get(INFO, health.info)
-
-    # Call Control Event Handler
-    app.router.add_post(EVENT, event.event_handler_factory())
 
 
 def configure_app(app):
