@@ -36,14 +36,10 @@ def _setup_routes(app):
     app.router.add_post(EVENT, event.event_handler_factory())
 
 
-
-def configure_app(app, startup_handler):
+def configure_app(app):
     """Configure the web.Application."""
 
     _setup_routes(app)
-
-    # Schedule custom startup routine.
-    app.on_startup.append(startup_handler)
 
 
 def register_dependency(app, constant_key, dependency, usecase=None):
