@@ -33,7 +33,7 @@ def _setup_routes(app):
     app.router.add_get(INFO, health.info)
 
     # Spotify resource analysis
-    app.router.add_get(ANALYZE, spotify.get_resource_analysis)
+    cors.add(app.router.add_get(ANALYZE, spotify.get_resource_analysis))
 
 
 def configure_app(app, startup_handler):
