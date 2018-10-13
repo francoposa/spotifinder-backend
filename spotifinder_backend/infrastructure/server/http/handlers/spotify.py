@@ -1,5 +1,5 @@
 import aiohttp
-from typing import Mapping
+from typing import Dict
 
 from spotifinder_backend.usecases.constants import *
 
@@ -18,10 +18,19 @@ async def get_resource_analysis(request: aiohttp.web.Request) -> aiohttp.web.Res
     return aiohttp.web.json_response(analyze_response, status=response_status)
 
 
-async def _do_get_with_query_string(base_url, token, **kwargs):
+async def get_recommendations(request: aiohttp.web.Request) -> aiohttp.web.Response:
+    _, auth_response = await _do_post_with_auth(AUTH_URL, request.app[SPOTIFY_CLIENT_ID], request.app[SPOTIFY_CLIENT_SECRET], {'grant_type': 'client_credentials'})
+    auth_token = auth_response["access_token"]
+    query_params = request.query
+    response_status, recommendation_response = await _do_get_with_query_string(RECOMMEND_URL, auth_token, query_params)
+    print(str(recommendation_response))
+    return aiohttp.web.json_response(recommendation_response, status=response_status)
+
+
+async def _do_get_with_query_string(base_url: str, token: str, query_params: Dict):
     headers = {'Authorization': 'Bearer {0}'.format(token)}
     query_string = '?'
-    for key, value in kwargs.items():
+    for key, value in query_params.items():
         query_string += str(key) + '=' + str(value) + '&'
     try:
         async with aiohttp.ClientSession() as session:
@@ -43,7 +52,7 @@ async def _do_get_with_resource_id(base_url, token, resource_id):
     except Exception as e:
         print("ERR: {}".format(e))
 
-async def _do_post_with_auth(url: str, client_id: str, client_secret:str, payload: Mapping):
+async def _do_post_with_auth(url: str, client_id: str, client_secret:str, payload: Dict):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.post(url, auth=aiohttp.BasicAuth(client_id, client_secret), data=payload) as resp:

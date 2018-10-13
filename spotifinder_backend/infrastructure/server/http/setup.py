@@ -11,6 +11,7 @@ from spotifinder_backend.infrastructure.server.http.errors import ERROR_HANDLERS
 HEALTH = "/health"
 INFO = "/info"
 ANALYZE = "/analyze"
+RECOMMEND = "/recommend"
 
 
 def _setup_routes(app):
@@ -34,7 +35,7 @@ def _setup_routes(app):
 
     # Spotify resource analysis
     cors.add(app.router.add_get(ANALYZE, spotify.get_resource_analysis))
-
+    cors.add(app.router.add_get(RECOMMEND, spotify.get_recommendations))
 
 def configure_app(app, startup_handler):
     """Configure the web.Application."""
