@@ -20,9 +20,7 @@ def on_startup():
 
         # Save dependencies in the HTTP app.
         http.register_dependency(app, SPOTIFY_CLIENT_ID, spotify_client_id)
-        http.register_dependency(
-            app, SPOTIFY_CLIENT_SECRET, spotify_client_secret
-        )
+        http.register_dependency(app, SPOTIFY_CLIENT_SECRET, spotify_client_secret)
 
         async def cleanup(app):
             """Perform required cleanup on shutdown"""
@@ -32,8 +30,9 @@ def on_startup():
 
     return startup_handler
 
+
 def main():
-	app = web.Application()
-	http.configure_app(app, on_startup())
-	port = int(os.environ.get('PORT', 8080))
-	web.run_app(app, host='0.0.0.0', port=port)
+    app = web.Application()
+    http.configure_app(app, on_startup())
+    port = int(os.environ.get("PORT", 8080))
+    web.run_app(app, host="0.0.0.0", port=port)
