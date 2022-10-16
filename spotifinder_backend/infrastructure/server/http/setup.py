@@ -7,7 +7,7 @@ import aiohttp_cors
 from spotifinder_backend.infrastructure.server.http.handlers import health, spotify
 
 
-HEALTH = "/health/"
+HEALTH = "/health"
 INFO = "/info"
 ANALYZE = "/analyze"
 RECOMMEND = "/recommend"
