@@ -1,6 +1,7 @@
 import os
 
 from aiohttp import web
+from aiohttp.web_middlewares import normalize_path_middleware
 
 from spotifinder_backend.infrastructure.server import http
 from spotifinder_backend.usecases.constants import *
@@ -32,7 +33,9 @@ def on_startup():
 
 
 def main():
-    app = web.Application()
+    app = web.Application(
+        middlewares=[normalize_path_middleware(append_slash=False, remove_slash=True)]
+    )
     http.configure_app(app, on_startup())
     port = int(os.environ.get("PORT", 8080))
     web.run_app(app, host="0.0.0.0", port=port)
