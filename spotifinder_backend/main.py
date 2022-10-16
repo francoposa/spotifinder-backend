@@ -35,4 +35,4 @@ def main():
     app = web.Application()
     http.configure_app(app, on_startup())
     port = int(os.environ.get("PORT", 8080))
-    web.run_app(app, host="0.0.0.0", port=port)
+    web.run_app(app, host="127.0.0.1", port=port)
